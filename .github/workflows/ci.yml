@@ -88,14 +88,10 @@ jobs:
           key: cached-pdf-files-${{ hashFiles('test/pdfs/*.pdf') }}
           enableCrossOsArchive: true
 
-      - name: Upload results to Codecov
-        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-          files: ./build/coverage/unitcli/lcov.info
-          flags: unittestcli
-          name: codecov-umbrella
-          disable_search: true
-          disable_telem: true
-          verbose: true
+      # racecar: Codecov upload removed. It needs secrets.CODECOV_TOKEN, which a
+      # fork cannot see, so the upload answers
+      #   Upload queued for processing failed: {"message":"Repository not found"}
+      # and fail_ci_if_error: true turns that into a job failure. Test (22) and
+      # Test (26) both reported `1592 specs, 0 failures` and then died here, so
+      # this step alone was reddening cells whose tests had fully passed.
+      # The unit tests and their coverage output are unchanged.
